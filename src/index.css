@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/montserrat";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #7c3aed;
+  --color-primary-light: #a78bfa;
+  --color-primary-dark: #5b21b6;
+}
+
+@layer utilities {
+  .clay-card {
+    @apply bg-white dark:bg-gray-900 rounded-[2rem] border-4 border-gray-100 dark:border-gray-800 transition-colors;
+    box-shadow: 8px 8px 0px 0px rgba(124, 58, 237, 0.1);
+  }
+  
+  .dark .clay-card {
+    box-shadow: 8px 8px 0px 0px rgba(124, 58, 237, 0.2);
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white rounded-2xl font-bold transition-all active:scale-95 flex items-center justify-center;
+    box-shadow: 0 4px 0 0 #5b21b6;
+  }
+  
+  .btn-primary:active:not(:disabled) {
+    @apply translate-y-1;
+    box-shadow: none;
+  }
+
+  .btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  
+  .clay-input {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-2xl border-4 border-transparent focus:border-primary/20 outline-none transition-all dark:text-white;
+  }
+  
+  .clay-input:focus {
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+  }
+
+  .nav-glass {
+    @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border border-gray-200/50 dark:border-gray-800/50;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-50 transition-colors;
+  }
+  html {
+    @apply font-sans;
+  }
+}
