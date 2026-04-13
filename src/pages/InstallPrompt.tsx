@@ -1,56 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Shield, ChevronRight, Download, PieChart, Target, Smile, Wallet } from 'lucide-react';
+import React from 'react';
+import { Shield, ChevronRight, PieChart, Target, Smile, Wallet } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e: Event) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      setDeferredPrompt(e);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
-
-  const isIframe = window !== window.parent;
-
-  const handleInstallClick = async () => {
-    if (isIframe) {
-      // Open the app in a new, full browser tab where installation is possible
-      window.open(window.location.href, '_blank');
-      return;
-    }
-
-    if (!deferredPrompt) {
-      // If no prompt is available (e.g., iOS Safari), alert the user
-      alert("To install on this device, please use your browser's menu (Share -> Add to Home Screen on iOS, or Menu -> Add to Home Screen on Android).");
-      return;
-    }
-    
-    // Show the install prompt
-    deferredPrompt.prompt();
-    
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-    } else {
-      console.log('User dismissed the install prompt');
-    }
-    
-    // We've used the prompt, and can't use it again, throw it away
-    setDeferredPrompt(null);
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-950 text-center animate-in fade-in duration-500 overflow-y-auto">
       <div className="w-full max-w-md py-8 flex flex-col items-center animate-in zoom-in-95 duration-500">
@@ -68,15 +20,6 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
         <p className="text-gray-500 dark:text-gray-400 mb-8 font-bold text-sm px-4">
           The ultimate offline finance tracker. Designed to work seamlessly as a standalone app or connected directly within the main Mooderia ecosystem.
         </p>
-
-        {/* Install Button (Shows if supported or as a fallback alert) */}
-        <button 
-          onClick={handleInstallClick}
-          className="w-full mb-10 py-4 px-6 bg-primary text-white rounded-2xl font-black text-lg shadow-[0_8px_16px_rgba(124,58,237,0.3)] active:scale-95 transition-all flex items-center justify-center gap-2"
-        >
-          <Download size={24} />
-          {isIframe ? "Open App to Install" : "Install App Now"}
-        </button>
 
         {/* Feature Showcase */}
         <div className="w-full text-left space-y-4 mb-10">
