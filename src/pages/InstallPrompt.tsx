@@ -7,8 +7,12 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-950 text-center animate-in fade-in duration-500 overflow-y-auto">
       <div className="w-full max-w-md py-8 flex flex-col items-center animate-in zoom-in-95 duration-500">
         {/* Hero / Introduction */}
-        <div className="w-24 h-24 bg-primary rounded-[2rem] flex items-center justify-center mb-6 border-4 border-white dark:border-gray-800 shadow-[0_8px_16px_rgba(124,58,237,0.3)]">
-          <Shield size={40} className="text-white" />
+        <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center mb-6 border-4 border-white dark:border-gray-800 shadow-[0_8px_16px_rgba(124,58,237,0.3)] overflow-hidden">
+          <img src="/mooderiacoin.png" alt="Mooderia Coin Logo" className="w-full h-full object-cover" onError={(e) => {
+            // Fallback if image is not uploaded yet
+            (e.target as HTMLImageElement).style.display = 'none';
+            (e.target as HTMLImageElement).parentElement!.innerHTML = '<div class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>';
+          }} />
         </div>
         <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">
           Mooderia Coin
