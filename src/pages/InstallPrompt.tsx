@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Share, MoreVertical, Shield, Zap, Smartphone, ChevronRight, Download } from 'lucide-react';
+import { Shield, ChevronRight, Download, PieChart, Target, Smile, Wallet } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
@@ -66,7 +66,7 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
           Mooderia Coin
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mb-8 font-bold text-sm px-4">
-          Your smart, 100% offline money assistant. To ensure your financial data stays private and secure on your device, Mooderia must be installed as an app.
+          The ultimate offline finance tracker. Designed to work seamlessly as a standalone app or connected directly within the main Mooderia ecosystem.
         </p>
 
         {/* Install Button (Shows if supported or as a fallback alert) */}
@@ -78,62 +78,58 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
           {isIframe ? "Open App to Install" : "Install App Now"}
         </button>
 
-        {/* Features/Why Install */}
-        <div className="flex justify-center gap-4 mb-10 w-full">
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center">
+        {/* Feature Showcase */}
+        <div className="w-full text-left space-y-4 mb-10">
+          <h2 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-4 text-center">Core Features</h2>
+          
+          <div className="clay-card p-5 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <Wallet size={20} />
+            </div>
+            <div>
+              <h3 className="font-black text-gray-900 dark:text-white text-sm mb-1">Expense Tracking</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-bold leading-relaxed">Log your daily income and expenses instantly. Keep your accounts organized in one secure place.</p>
+            </div>
+          </div>
+
+          <div className="clay-card p-5 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center shrink-0">
+              <PieChart size={20} />
+            </div>
+            <div>
+              <h3 className="font-black text-gray-900 dark:text-white text-sm mb-1">Smart Budgeting</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-bold leading-relaxed">Set monthly limits for different categories and visualize your spending habits with intuitive charts.</p>
+            </div>
+          </div>
+
+          <div className="clay-card p-5 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center shrink-0">
+              <Target size={20} />
+            </div>
+            <div>
+              <h3 className="font-black text-gray-900 dark:text-white text-sm mb-1">Financial Goals</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-bold leading-relaxed">Create custom saving targets and track your progress as you put money aside for what matters.</p>
+            </div>
+          </div>
+
+          <div className="clay-card p-5 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center shrink-0">
+              <Smile size={20} />
+            </div>
+            <div>
+              <h3 className="font-black text-gray-900 dark:text-white text-sm mb-1">Mood Integration</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-bold leading-relaxed">Link your transactions to your current mood to understand emotional spending patterns.</p>
+            </div>
+          </div>
+
+          <div className="clay-card p-5 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center shrink-0">
               <Shield size={20} />
             </div>
-            <span className="text-[10px] font-black uppercase text-gray-500">Private</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
-              <Zap size={20} />
+            <div>
+              <h3 className="font-black text-gray-900 dark:text-white text-sm mb-1">100% Offline & Private</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-bold leading-relaxed">Your financial data never leaves your device. It works completely offline for maximum security.</p>
             </div>
-            <span className="text-[10px] font-black uppercase text-gray-500">Fast</span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center">
-              <Smartphone size={20} />
-            </div>
-            <span className="text-[10px] font-black uppercase text-gray-500">App-like</span>
-          </div>
-        </div>
-
-        {/* Installation Guide */}
-        <div className="w-full text-left space-y-4 mb-10">
-          <h2 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-2 text-center">Manual Install Guide</h2>
-          
-          <div className="clay-card p-5">
-            <h3 className="font-black text-gray-900 dark:text-white flex items-center gap-2 mb-3">
-              🍎 iOS (Safari)
-            </h3>
-            <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-4 font-bold">
-              <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">1</div>
-                <span>Tap the <Share size={16} className="inline mx-1 text-primary" /> Share button at the bottom.</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">2</div>
-                <span>Scroll down and tap <strong className="text-gray-900 dark:text-white">Add to Home Screen</strong>.</span>
-              </li>
-            </ol>
-          </div>
-
-          <div className="clay-card p-5">
-            <h3 className="font-black text-gray-900 dark:text-white flex items-center gap-2 mb-3">
-              🤖 Android (Chrome)
-            </h3>
-            <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-4 font-bold">
-              <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">1</div>
-                <span>Tap the <MoreVertical size={16} className="inline mx-1 text-primary" /> Menu button at the top right.</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">2</div>
-                <span>Tap <strong className="text-gray-900 dark:text-white">Add to Home screen</strong> or <strong className="text-gray-900 dark:text-white">Install app</strong>.</span>
-              </li>
-            </ol>
           </div>
         </div>
 
