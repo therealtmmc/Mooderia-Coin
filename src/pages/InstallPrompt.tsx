@@ -20,7 +20,15 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
     };
   }, []);
 
+  const isIframe = window !== window.parent;
+
   const handleInstallClick = async () => {
+    if (isIframe) {
+      // Open the app in a new, full browser tab where installation is possible
+      window.open(window.location.href, '_blank');
+      return;
+    }
+
     if (!deferredPrompt) {
       // If no prompt is available (e.g., iOS Safari), alert the user
       alert("To install on this device, please use your browser's menu (Share -> Add to Home Screen on iOS, or Menu -> Add to Home Screen on Android).");
@@ -67,7 +75,7 @@ export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
           className="w-full mb-10 py-4 px-6 bg-primary text-white rounded-2xl font-black text-lg shadow-[0_8px_16px_rgba(124,58,237,0.3)] active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           <Download size={24} />
-          Install App Now
+          {isIframe ? "Open App to Install" : "Install App Now"}
         </button>
 
         {/* Features/Why Install */}
