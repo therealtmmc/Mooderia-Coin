@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Lock, UserPlus, ArrowRight, Delete } from 'lucide-react';
+import { Lock, UserPlus, ArrowRight, Delete, Globe } from 'lucide-react';
+import { COUNTRIES } from '../lib/countries';
 
 export default function AuthPage({ onUnlock }: { onUnlock: () => void }) {
   const users = useLiveQuery(() => db.users.toArray());
   const [username, setUsername] = useState('');
   const [pin, setPin] = useState('');
+  const [country, setCountry] = useState('US');
   const [error, setError] = useState('');
 
   if (users === undefined) return null; // loading
@@ -30,7 +32,7 @@ export default function AuthPage({ onUnlock }: { onUnlock: () => void }) {
     setError('');
 
     if (isSignUp) {
-      if (!username || !pin) {
+      if (!username || !pin || !country) {
         setError('Please fill all fields');
         return;
       }
@@ -38,11 +40,16 @@ export default function AuthPage({ onUnlock }: { onUnlock: () => void }) {
         setError('PIN must be exactly 6 digits');
         return;
       }
+      
+      const selectedCountry = COUNTRIES.find(c => c.code === country);
+      
       await db.users.add({
         id: crypto.randomUUID(),
         username,
         pin,
-        isAppLockEnabled: false
+        isAppLockEnabled: false,
+        country: selectedCountry?.name,
+        currency: selectedCountry?.currency || '$'
       });
       
       // Create a default account for the new user
@@ -79,13 +86,31 @@ export default function AuthPage({ onUnlock }: { onUnlock: () => void }) {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {isSignUp && (
-            <input
-              type="text"
-              placeholder="Your Name"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-4 clay-input text-center font-bold text-lg"
-            />
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full p-4 clay-input text-center font-bold text-lg"
+              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                  <Globe size={20} />
+                </div>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full p-4 pl-12 clay-input font-bold text-lg appearance-none bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>
+                      {c.name} ({c.currency})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           )}
           
           <div className="flex flex-col items-center">

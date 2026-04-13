@@ -29,6 +29,10 @@ const MOOD_ICONS = {
 
 export default function TransactionsPage() {
   const transactions = useLiveQuery(() => db.transactions.orderBy('date').reverse().toArray());
+  const users = useLiveQuery(() => db.users.toArray());
+  const user = users?.[0];
+  const currency = user?.currency || '$';
+  
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState<{id: string, amount: number, type: string} | null>(null);
 
@@ -108,7 +112,7 @@ export default function TransactionsPage() {
                     "font-black text-lg",
                     isExpense ? "text-gray-900 dark:text-white" : "text-green-600"
                   )}>
-                    {isExpense ? '-' : '+'}${t.amount.toFixed(2)}
+                    {isExpense ? '-' : '+'}{currency}{t.amount.toFixed(2)}
                   </div>
                   <button 
                     onClick={() => handleDeleteClick(t.id, t.amount, t.type)}

@@ -12,6 +12,9 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 
 export default function GoalsPage() {
   const goals = useLiveQuery(() => db.goals.toArray());
+  const users = useLiveQuery(() => db.users.toArray());
+  const user = users?.[0];
+  const currency = user?.currency || '$';
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
@@ -131,7 +134,7 @@ export default function GoalsPage() {
                     <div>
                       <h3 className="font-black text-lg text-gray-900 dark:text-white">{goal.name}</h3>
                       <p className="text-xs font-bold text-gray-500 mt-1">
-                        ${goal.current_amount.toLocaleString()} / ${goal.target_amount.toLocaleString()}
+                        {currency}{goal.current_amount.toLocaleString()} / {currency}{goal.target_amount.toLocaleString()}
                       </p>
                     </div>
                   </div>
@@ -152,7 +155,7 @@ export default function GoalsPage() {
                     {percent.toFixed(0)}%
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">
-                    {isCompleted ? 'Goal Reached!' : `$${remaining.toLocaleString()} left`}
+                    {isCompleted ? 'Goal Reached!' : `${currency}${remaining.toLocaleString()} left`}
                   </span>
                 </div>
               </div>
@@ -191,7 +194,7 @@ export default function GoalsPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Target Amount ($)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Target Amount ({currency})</label>
                 <input 
                   type="number" 
                   value={targetAmount}
@@ -205,7 +208,7 @@ export default function GoalsPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Current Saved ($)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Current Saved ({currency})</label>
                 <input 
                   type="number" 
                   value={currentAmount}

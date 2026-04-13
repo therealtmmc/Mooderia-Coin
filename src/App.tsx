@@ -57,7 +57,7 @@ function BottomNav() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="relative -top-5 flex flex-col items-center justify-center w-14 h-14 bg-primary text-white rounded-full shadow-[0_4px_0_0_#5b21b6] active:translate-y-1 active:shadow-none transition-all"
+                  className="relative -top-5 flex flex-col items-center justify-center w-14 h-14 bg-primary text-white rounded-full shadow-[0_8px_16px_rgba(124,58,237,0.4)] active:scale-90 active:shadow-none transition-all duration-300"
                 >
                   <Icon size={28} />
                 </Link>

@@ -1,55 +1,101 @@
 import React from 'react';
-import { Share, MoreVertical, PlusSquare } from 'lucide-react';
+import { Share, MoreVertical, Shield, Zap, Smartphone, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function InstallPrompt({ onBypass }: { onBypass?: () => void }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-950 text-center animate-in fade-in duration-500">
-      <div className="w-full max-w-sm clay-card p-8 flex flex-col items-center animate-in zoom-in-95 duration-500">
-        <div className="w-20 h-20 bg-primary rounded-3xl flex items-center justify-center mb-6 border-4 border-gray-100 dark:border-gray-800 shadow-[4px_4px_0px_0px_rgba(124,58,237,0.2)]">
-          <PlusSquare size={36} className="text-white" />
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-950 text-center animate-in fade-in duration-500 overflow-y-auto">
+      <div className="w-full max-w-md py-8 flex flex-col items-center animate-in zoom-in-95 duration-500">
+        {/* Hero / Introduction */}
+        <div className="w-24 h-24 bg-primary rounded-[2rem] flex items-center justify-center mb-6 border-4 border-white dark:border-gray-800 shadow-[0_8px_16px_rgba(124,58,237,0.3)]">
+          <Shield size={40} className="text-white" />
         </div>
-        <h1 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Install Mooderia</h1>
-        <p className="text-gray-500 dark:text-gray-400 mb-8 font-bold">
-          To keep your data 100% offline and secure, please add Mooderia to your home screen.
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">
+          Mooderia Coin
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-8 font-bold text-sm px-4">
+          Your smart, 100% offline money assistant. To ensure your financial data stays private and secure on your device, Mooderia must be installed as an app.
         </p>
 
-        <div className="text-left w-full space-y-6 mb-8">
-          <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+        {/* Features/Why Install */}
+        <div className="flex justify-center gap-4 mb-10 w-full">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center">
+              <Shield size={20} />
+            </div>
+            <span className="text-[10px] font-black uppercase text-gray-500">Private</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
+              <Zap size={20} />
+            </div>
+            <span className="text-[10px] font-black uppercase text-gray-500">Fast</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center">
+              <Smartphone size={20} />
+            </div>
+            <span className="text-[10px] font-black uppercase text-gray-500">App-like</span>
+          </div>
+        </div>
+
+        {/* Installation Guide */}
+        <div className="w-full text-left space-y-4 mb-10">
+          <h2 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-2 text-center">How to Install</h2>
+          
+          <div className="clay-card p-5">
+            <h3 className="font-black text-gray-900 dark:text-white flex items-center gap-2 mb-3">
               🍎 iOS (Safari)
             </h3>
-            <ol className="text-sm text-gray-600 dark:text-gray-300 space-y-3 list-decimal list-inside font-medium">
-              <li>Tap the <Share size={16} className="inline mx-1 text-primary" /> Share button at the bottom.</li>
-              <li>Scroll down and tap <strong className="text-gray-900 dark:text-white">Add to Home Screen</strong>.</li>
+            <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-4 font-bold">
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">1</div>
+                <span>Tap the <Share size={16} className="inline mx-1 text-primary" /> Share button at the bottom.</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">2</div>
+                <span>Scroll down and tap <strong className="text-gray-900 dark:text-white">Add to Home Screen</strong>.</span>
+              </li>
             </ol>
           </div>
 
-          <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+          <div className="clay-card p-5">
+            <h3 className="font-black text-gray-900 dark:text-white flex items-center gap-2 mb-3">
               🤖 Android (Chrome)
             </h3>
-            <ol className="text-sm text-gray-600 dark:text-gray-300 space-y-3 list-decimal list-inside font-medium">
-              <li>Tap the <MoreVertical size={16} className="inline mx-1 text-primary" /> Menu button at the top right.</li>
-              <li>Tap <strong className="text-gray-900 dark:text-white">Add to Home screen</strong> or <strong className="text-gray-900 dark:text-white">Install app</strong>.</li>
+            <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-4 font-bold">
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">1</div>
+                <span>Tap the <MoreVertical size={16} className="inline mx-1 text-primary" /> Menu button at the top right.</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0 text-xs">2</div>
+                <span>Tap <strong className="text-gray-900 dark:text-white">Add to Home screen</strong> or <strong className="text-gray-900 dark:text-white">Install app</strong>.</span>
+              </li>
             </ol>
           </div>
+        </div>
+
+        {/* Legal Links */}
+        <div className="w-full flex flex-col gap-3 mb-8">
+          <Link to="/terms" className="w-full p-4 clay-card flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 active:scale-[0.98] transition-all">
+            <span className="font-bold text-gray-900 dark:text-white text-sm">Terms & Conditions</span>
+            <ChevronRight size={16} className="text-gray-400" />
+          </Link>
+          <Link to="/privacy" className="w-full p-4 clay-card flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 active:scale-[0.98] transition-all">
+            <span className="font-bold text-gray-900 dark:text-white text-sm">Privacy Policy</span>
+            <ChevronRight size={16} className="text-gray-400" />
+          </Link>
         </div>
 
         {onBypass && (
           <button 
             onClick={onBypass} 
-            className="text-primary font-bold text-sm underline mb-6 hover:text-primary/80 transition-colors"
+            className="text-gray-400 font-bold text-xs underline hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             Continue in Browser (Preview Mode)
           </button>
         )}
-
-        <div className="flex gap-4 text-xs font-bold text-gray-400 mt-auto pt-4 border-t-2 border-gray-100 dark:border-gray-800 w-full justify-center">
-          <Link to="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
-          <span>•</span>
-          <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-        </div>
       </div>
     </div>
   );

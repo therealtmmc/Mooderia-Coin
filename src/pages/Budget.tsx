@@ -24,6 +24,9 @@ const CATEGORIES = Object.keys(CATEGORY_ICONS);
 
 export default function BudgetPage() {
   const currentMonth = format(new Date(), 'yyyy-MM');
+  const users = useLiveQuery(() => db.users.toArray());
+  const user = users?.[0];
+  const currency = user?.currency || '$';
   
   const transactions = useLiveQuery(() => 
     db.transactions
@@ -168,28 +171,33 @@ export default function BudgetPage() {
                     <div className="font-black text-lg text-gray-900 dark:text-white">{budget.category}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-black text-xl text-gray-900 dark:text-white">${spent.toFixed(2)}</div>
-                    <div className="text-xs font-bold text-gray-500">of ${budget.limit}</div>
+                    <div className="font-black text-2xl text-gray-900 dark:text-white leading-none mb-1">{currency}{spent.toFixed(2)}</div>
+                    <div className="text-xs font-bold text-gray-400">of {currency}{budget.limit}</div>
                   </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="h-4 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-2 border-2 border-gray-200 dark:border-gray-700">
+                <div className="h-6 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-3 border-2 border-gray-200 dark:border-gray-700 relative">
                   <div 
                     className={cn(
-                      "h-full rounded-r-full transition-all duration-500",
-                      isOverLimit ? "bg-red-500" : isNearLimit ? "bg-primary-dark" : "bg-primary"
+                      "h-full rounded-r-full transition-all duration-1000 ease-out",
+                      isOverLimit ? "bg-red-500" : isNearLimit ? "bg-orange-500" : "bg-gradient-to-r from-primary to-purple-400"
                     )}
                     style={{ width: `${percent}%` }}
                   />
                 </div>
                 
-                <div className="flex justify-between text-xs font-black">
-                  <span className={isOverLimit ? "text-red-500" : "text-gray-500"}>
-                    {isOverLimit ? 'Over budget' : `${percent.toFixed(0)}% spent`}
-                  </span>
+                <div className="flex justify-between items-center text-xs font-black">
+                  <div className="flex items-center gap-1.5">
+                    <span className={isOverLimit ? "text-red-500" : "text-gray-900 dark:text-white"}>
+                      {percent.toFixed(0)}% spent
+                    </span>
+                    <span className="text-gray-400 font-bold">
+                      • {isOverLimit ? 'Over limit ⚠️' : isNearLimit ? 'Careful 👀' : 'On track 👍'}
+                    </span>
+                  </div>
                   <span className={isOverLimit ? "text-red-500" : "text-primary"}>
-                    ${Math.abs(remaining).toFixed(2)} {isOverLimit ? 'over' : 'left'}
+                    {currency}{Math.abs(remaining).toFixed(2)} {isOverLimit ? 'over' : 'left'}
                   </span>
                 </div>
               </div>
@@ -230,7 +238,7 @@ export default function BudgetPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Monthly Limit ($)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Monthly Limit ({currency})</label>
                 <input 
                   type="number" 
                   value={limit}

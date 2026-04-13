@@ -1,9 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
-import { Trash2, Download, Shield, FileText, Lock, User, Camera, Edit2, Check, Moon, Sun } from 'lucide-react';
+import { Trash2, Download, Shield, FileText, Lock, User, Camera, Edit2, Check, Moon, Sun, Globe } from 'lucide-react';
 import { Link } from 'react-router';
 import React, { useRef, useState, useEffect } from 'react';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { COUNTRIES } from '../lib/countries';
 
 export default function SettingsPage() {
   const users = useLiveQuery(() => db.users.toArray());
@@ -175,12 +176,41 @@ export default function SettingsPage() {
             </div>
           )}
           
-          <p className="text-gray-500 dark:text-gray-400 font-bold text-sm">Offline Profile</p>
+          <p className="text-gray-500 dark:text-gray-400 font-bold text-sm">Your data stays on this device 🔒</p>
         </section>
 
         <section className="animate-in slide-in-from-bottom-4 duration-500 delay-200 fill-mode-both">
           <h2 className="text-xs font-black text-gray-400 uppercase tracking-wider mb-3 px-2">General</h2>
           <div className="clay-card overflow-hidden">
+            <div className="w-full flex items-center justify-between p-4 border-b-2 border-gray-100 dark:border-gray-800">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700">
+                  <Globe size={16} />
+                </div>
+                <span className="font-bold text-gray-900 dark:text-white">Country / Currency</span>
+              </div>
+              <select
+                value={COUNTRIES.find(c => c.name === user?.country)?.code || 'US'}
+                onChange={async (e) => {
+                  if (user) {
+                    const selectedCountry = COUNTRIES.find(c => c.code === e.target.value);
+                    if (selectedCountry) {
+                      await db.users.update(user.id, { 
+                        country: selectedCountry.name,
+                        currency: selectedCountry.currency
+                      });
+                    }
+                  }
+                }}
+                className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-sm py-1 px-2 rounded-lg border-2 border-gray-200 dark:border-gray-700 outline-none"
+              >
+                {COUNTRIES.map(c => (
+                  <option key={c.code} value={c.code}>
+                    {c.name} ({c.currency})
+                  </option>
+                ))}
+              </select>
+            </div>
             <button onClick={toggleDarkMode} className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors border-b-2 border-gray-100 dark:border-gray-800 active:bg-gray-100 dark:active:bg-gray-800">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700">
@@ -188,7 +218,7 @@ export default function SettingsPage() {
                 </div>
                 <span className="font-bold text-gray-900 dark:text-white">Dark Mode</span>
               </div>
-              <div className={`w-12 h-6 rounded-full border-2 border-gray-200 dark:border-gray-700 relative transition-colors ${isDarkMode ? 'bg-primary border-primary' : 'bg-gray-200 dark:bg-gray-700'}`}>
+              <div className={`w-12 h-6 rounded-full border-2 relative transition-colors ${isDarkMode ? 'bg-primary border-primary' : 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}`}>
                 <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${isDarkMode ? 'left-6' : 'left-1'}`} />
               </div>
             </button>
@@ -199,7 +229,7 @@ export default function SettingsPage() {
                 </div>
                 <span className="font-bold text-gray-900 dark:text-white">App Lock (PIN)</span>
               </div>
-              <div className={`w-12 h-6 rounded-full border-2 border-gray-200 dark:border-gray-700 relative transition-colors ${user?.isAppLockEnabled ? 'bg-primary border-primary' : 'bg-gray-200 dark:bg-gray-700'}`}>
+              <div className={`w-12 h-6 rounded-full border-2 relative transition-colors ${user?.isAppLockEnabled ? 'bg-primary border-primary' : 'bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}`}>
                 <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${user?.isAppLockEnabled ? 'left-6' : 'left-1'}`} />
               </div>
             </button>

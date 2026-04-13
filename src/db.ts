@@ -37,6 +37,8 @@ export interface User {
   pin: string;
   profilePic?: string;
   isAppLockEnabled: boolean;
+  country?: string;
+  currency?: string;
 }
 
 const db = new Dexie('MooderiaCoinDB') as Dexie & {

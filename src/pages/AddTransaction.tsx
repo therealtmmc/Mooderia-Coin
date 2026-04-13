@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { db } from '../db';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { Coffee, ShoppingBag, Home as HomeIcon, Car, Zap, MoreHorizontal, Smile, Meh, Frown, ArrowLeft } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -26,6 +27,10 @@ const MOODS = [
 
 export default function AddTransactionPage() {
   const navigate = useNavigate();
+  const users = useLiveQuery(() => db.users.toArray());
+  const user = users?.[0];
+  const currency = user?.currency || '$';
+  
   const [amount, setAmount] = useState('');
   const [type, setType] = useState<'expense' | 'income'>('expense');
   const [category, setCategory] = useState('Food');
@@ -101,7 +106,7 @@ export default function AddTransactionPage() {
         <div className="mb-8 text-center clay-card p-6">
           <div className="text-gray-400 text-sm font-black uppercase tracking-wider mb-2">Amount</div>
           <div className="flex items-center justify-center text-5xl font-black text-gray-900 dark:text-white">
-            <span className="text-gray-400 mr-1">$</span>
+            <span className="text-gray-400 mr-1">{currency}</span>
             <input
               type="number"
               value={amount}
